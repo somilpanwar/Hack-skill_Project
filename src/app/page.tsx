@@ -1,32 +1,26 @@
 "use client"
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import FeatureCard from "../components/FeatureCard";
-import { Hash, Video, Info } from "lucide-react";
+//import {  Video, Info, Image } from "lucide-react";
+import features from "@/helper/feature";
+//import { useUser } from "@clerk/nextjs";
+import roleContext from "@/context/roleContext";
 
-const features = [
-  {
-    icon: <Hash size={32} />,
-    title: "Hashtags",
-    description:
-      "Use trending and relevant hashtags to boost the visibility of your products and artwork, making it easier for customers to discover you.",
-  },
-  {
-    icon: <Video size={32} />,
-    title: "AI Powered Video",
-    description:
-      "Create and share engaging AI-generated videos to showcase your shop or art, attracting more attention and increasing engagement.",
-  },
-  {
-    icon: <Info size={32} />,
-    title: "Detailed Descriptions",
-    description:
-      "Provide rich, informative descriptions for your listings to help customers understand your offerings and make confident purchases.",
-  },
-];
 
 const Home = () => {
+ // const {user , isLoaded} = useUser();
+  const{role} = useContext(roleContext)
+  const[Rolefeature , setRoleFeature] = useState(features.filter((feat)=>feat.role=="User"));
+  useEffect(() => {
+    
+   
+    setRoleFeature(features.filter((feat)=>feat.role == role))
+    
+  
+  }, [role])
+  
   return (
     <>
       <Navbar />
@@ -55,7 +49,7 @@ const Home = () => {
             What We Offer
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, idx) => (
+            {Rolefeature.map((feature, idx) => (
               <FeatureCard key={idx} {...feature} />
             ))}
           </div>
