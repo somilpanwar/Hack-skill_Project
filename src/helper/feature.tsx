@@ -5,7 +5,8 @@ import {
   Video, 
   Share2,
   Search,
-  Eye
+  Eye,
+  Plus
 } from "lucide-react";
 
 // Interface for feature items with role-based display
@@ -19,6 +20,14 @@ export interface Feature {
 
 const features: Feature[] = [
   // Seller Features
+  {
+    icon: <Plus size={32} />,
+    title: "Add New Product",
+    description:
+      "Easily add and publish new products to your store. Upload images, set descriptions, pricing, and manage your inventory.",
+    role: "Seller",
+    url: "/feature/add-product"
+  },
   {
     icon: <Upload size={32} />,
     title: "Upload the Photos",

@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 import roleContext from "@/context/roleContext";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { user, isSignedIn } = useUser();
@@ -13,7 +13,6 @@ const Navbar = () => {
 
 
   const handleRole = async (role: string) => {
-    toggle();
     if (isSignedIn) {
       try {
         const res = await fetch("http://localhost:5000/role", {
@@ -25,7 +24,8 @@ const Navbar = () => {
         })
         if (res.status == 200) {
           console.log("access granted!");
-
+          // Only toggle the role after successful API call
+          toggle();
         }
       } catch (error) {
         if (error)
@@ -47,6 +47,12 @@ const Navbar = () => {
           <li><Link href="/artists" className="hover:text-orange-400 transition-colors">Artists</Link></li>
           <li><Link href="/about" className="hover:text-orange-400 transition-colors">About</Link></li>
           <li><Link href="/contact" className="hover:text-orange-400 transition-colors">Contact</Link></li>
+          {role === "Seller" && (
+            <>
+              <li><Link href="/feature/add-product" className="hover:text-orange-400 transition-colors">Add Product</Link></li>
+              <li><Link href="/analytics-dashboard" className="hover:text-orange-400 transition-colors">Dashboard</Link></li>
+            </>
+          )}
         </ul>
         <div className="flex items-center gap-4">
           <SignedOut>
